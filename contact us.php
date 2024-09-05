@@ -1,0 +1,269 @@
+<?php include 'includes/header.php'; ?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css" />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Arial", sans-serif;
+      }
+
+      .form-main {
+        background: linear-gradient(to bottom, #00000024, #00000024),
+          url(images/bike2.jpg) no-repeat center;
+        background-size: cover;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px; /* Padding to account for description spacing */
+      }
+
+      .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 30px; /* Space between the form and description */
+      }
+
+      .main-wrapper {
+        border-radius: 10px;
+        padding: 45px;
+        width: 33%; /* Adjust width for better layout */
+        min-height: 400px; /* Adjust height of the form */
+        backdrop-filter: blur(8px);
+        background-color: #ffffff85;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional box shadow for better separation */
+      }
+
+      .description-wrapper {
+        width: 40%;
+        background-color: transparent;
+        border-radius: 5px;
+        padding: 20px;
+        color: #fff;
+        font-size: 16px;
+        line-height: 1.6;
+        margin-top: 10%;
+      }
+
+      @media screen and (max-width: 991px) {
+        .main-wrapper,
+        .description-wrapper {
+          width: 100%;
+        }
+      }
+
+      @media screen and (max-width: 767px) {
+        .form-container {
+          flex-direction: column;
+          gap: 20px;
+        }
+      }
+
+      .form-head {
+        font-size: 30px;
+        color: #fff;
+        line-height: 40px;
+        font-weight: 600;
+        text-align: left;
+        margin: 0px 0 25px;
+        position: relative;
+        padding-bottom: 15px; 
+      }
+
+      .form-head::after {
+        content: "";
+        display: block;
+        width: 90%; 
+        height: 4px; 
+        background: #fff; 
+        position: absolute;
+        left: 45%;
+        bottom: 0;
+        transform: translateX(-50%);
+      }
+
+      .form-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .form-card {
+        position: relative;
+        width: 100%;
+      }
+
+      .form-input,
+      .form-textarea {
+        padding: 20px 25px 15px;
+        width: 100%;
+        border: 1px solid #fff;
+        border-radius: 5px;
+        background: transparent;
+        outline: none;
+        font-size: 20px;
+        line-height: 30px;
+        font-weight: 400;
+        box-sizing: border-box;
+        color: #fff;
+      }
+
+      .form-input:valid,
+      .form-input:focus,
+      .form-textarea:valid,
+      .form-textarea:focus {
+
+      }
+
+      .form-input:-webkit-autofill,
+      .form-input:-webkit-autofill:hover,
+      .form-input:-webkit-autofill:focus,
+      .form-input:-webkit-autofill:active {
+        transition: background-color 9999s ease-in-out 0s;
+      }
+
+      .form-input::-webkit-outer-spin-button,
+      .form-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      .form-textarea {
+        resize: vertical; /* Allows the user to resize the textarea vertically */
+        min-height: 120px; /* Set a minimum height */
+        line-height: 1.5;
+      }
+
+      .form-label,
+      .form-textarea-label {
+        position: absolute;
+        left: 25px;
+        top: 60%;
+        transform: translateY(-90%);
+        pointer-events: none;
+        transition: 0.3s;
+        margin: 0;
+        font-size: 18px;
+        line-height: 28px;
+        font-weight: 500;
+        color: #fff;
+      }
+
+      .form-textarea-label {
+        top: 20%;
+        transform: translateY(-75%);
+      }
+
+      .form-input:valid ~ .form-label,
+      .form-input:focus ~ .form-label,
+      .form-textarea:valid ~ .form-textarea-label,
+      .form-textarea:focus ~ .form-textarea-label {
+        top: 1%;
+        transform: translateY(-90%);
+        font-size: 13px;
+        line-height: 23px;
+      }
+
+      .btn-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 16px 0 0;
+      }
+
+      .btn-wrap button {
+        padding: 0 32px;
+        font-size: 18px;
+        line-height: 48px;
+        border: 1px solid transparent;
+        font-weight: 600;
+        border-radius: 6px;
+        transition: all 0.5s ease;
+        background-color: #A4ABA6;
+        cursor: pointer;
+        box-shadow: 0 0 5px 5px #00000020;
+        color: #fff;
+      }
+
+      .btn-wrap button:hover {
+        border: 1px solid #000;
+        background: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-main">
+      <div class="form-container">
+        <div class="main-wrapper">
+          <h2 class="form-head">Contact Form</h2>
+          <form class="form-wrapper">
+            <div class="form-card">
+              <input
+                class="form-input"
+                type="text"
+                name="full_name"
+                required="required"
+              />
+              <label class="form-label" for="full_name">Full Name</label>
+            </div>
+
+            <div class="form-card">
+              <input
+                class="form-input"
+                type="email"
+                name="email"
+                required="required"
+              />
+              <label class="form-label" for="email">Email</label>
+            </div>
+
+            <div class="form-card">
+              <input
+                class="form-input"
+                type="number"
+                name="phone_number"
+                required="required"
+              />
+              <label class="form-label" for="phone_number">Phone Number</label>
+            </div>
+
+            <div class="form-card">
+              <textarea
+                class="form-textarea"
+                maxlength="420"
+                rows="3"
+                name="message"
+                required="required"
+              ></textarea>
+              <label class="form-textarea-label" for="message">Message</label>
+            </div>
+            
+            <div class="btn-wrap">
+              <button type="submit">Submit</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="description-wrapper">
+          <p>
+            We value your feedback and we are here to assist you with any questions or concerns about our service. Please fill out the contact form, and we will get back to you as soon as possible. Your satisfaction is our priority!
+          </p>
+        </div>
+      </div>
+    </div>
+    <?php include 'includes/footer.php'; ?>
+  </body>
+</html>
