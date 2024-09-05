@@ -1,46 +1,47 @@
 <?php
-include '../db_connection.php';
+session_start();
+include '../db_connection.php'; // Include your database connection
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Retrieve user input from form
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
-
-    // Validate inputs
-    if (empty($email) || empty($password)) {
-        $_SESSION['error_message'] = "Email and Password are required.";
-        header("Location: login.php");
-        exit();
-    }
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
     try {
-        // Prepare SQL query
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
+        // Check if user exists
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
+        $stmt->execute(['email' => $email]);
+        $user = $stmt->fetch();
 
-        // Fetch user data
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        // Verify user exists and password is correct
-        if ($user && password_verify($password, $user['password'])) {
-            // Start session and set session variables
-            session_start();
-            session_regenerate_id(true); // Regenerate session ID for security
-            $_SESSION['user_id'] = $user['user_id'];
-            $_SESSION['username'] = $user['username'];
-
-            // Redirect to the user dashboard or home page
-            header("Location: ../index.php");
-            exit();
+        if ($user) {
+            // Verify password
+            if (password_verify($password, $user['password'])) {
+                // Check if user is active
+                if ($user['is_active'] == 1) { // Assuming 1 means active and 0 means inactive
+                    // Set session and redirect
+                    $_SESSION['user_id'] = $user['user_id'];
+                    $_SESSION['username'] = $user['username'];
+                    header("Location: ../userdash/index.php");
+                    exit();
+                } else {
+                    // User is deactivated
+                    $_SESSION['error'] = "Your account has been deactivated. Please contact support.";
+                    header("Location: login.php");
+                    exit();
+                }
+            } else {
+                // Invalid password
+                $_SESSION['error'] = "Invalid email or password.";
+                header("Location: login.php");
+                exit();
+            }
         } else {
-            $_SESSION['error_message'] = "Invalid email or password.";
+            // User not found
+            $_SESSION['error'] = "Invalid email or password.";
             header("Location: login.php");
             exit();
         }
-    } catch (PDOException $e) {
-        // Handle error
-        $_SESSION['error_message'] = "An error occurred. Please try again later.";
+    } catch (Exception $e) {
+        $_SESSION['error'] = "An error occurred. Please try again.";
         header("Location: login.php");
         exit();
     }

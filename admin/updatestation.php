@@ -1,39 +1,28 @@
 <?php
-// Start the session (if not already started)
-session_start();
-
-
-include '../db_connection.php';
+include '../db_connection.php'; // Include the database connection
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve the station details from the POST request
-    $station_id = $_POST['station_id'];
-    $name = $_POST['name'];
-    $address = $_POST['address'];
+    $stationId = $_POST['stationId'];
+    $stationName = $_POST['stationName'];
+    $stationAddress = $_POST['stationAddress'];
 
-    // Prepare the SQL statement to update the station details
-    $sql = "UPDATE stations SET name = :name, address = :address, updated_at = NOW() WHERE station_id = :station_id";
-    
-    try {
-        // Prepare and execute the statement using PDO
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':address', $address);
-        $stmt->bindParam(':station_id', $station_id);
+    // SQL query to update the station's data
+    $sql = "UPDATE stations SET name = :name, address = :address WHERE station_id = :station_id";
+    $stmt = $pdo->prepare($sql);
 
-        if ($stmt->execute()) {
-            // Success message
-            $_SESSION['success_message'] = "Station details updated successfully!";
-        } else {
-            // Error message
-            $_SESSION['error_message'] = "Failed to update station details.";
-        }
-    } catch (PDOException $e) {
-        // Handle the error
-        $_SESSION['error_message'] = "Error: " . $e->getMessage();
+    // Execute query with bound parameters
+    if ($stmt->execute([':name' => $stationName, ':address' => $stationAddress, ':station_id' => $stationId])) {
+        // Redirect back to view stations with a success message
+        header("Location: viewstation.php?success=1");
+        exit;
+    } else {
+        // Redirect back to view stations with an error message
+        header("Location: viewstation.php?error=1");
+        exit;
     }
+} else {
+    // If accessed directly, redirect to the view stations page
+    header("Location: viewstation.php");
+    exit;
 }
-
-// Redirect back to the view stations page after the update
-header("Location: viewstation.php");
-exit();
+?>

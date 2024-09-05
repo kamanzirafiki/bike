@@ -1,15 +1,27 @@
-<!-- header.php -->
 <?php
 // Include your database connection
 include '../db_connection.php';
 
 try {
-    // Prepare and execute query to get the count of bikes/scooters that need approval
-    $query = "SELECT COUNT(*) AS pending_vehicles FROM bikes_scooters WHERE approval_status = 'pending'";
+    // Query to get counts for different types of notifications (assuming 'type' is used to categorize notifications)
+    $query = "
+        SELECT
+            COUNT(CASE WHEN type = 'registration' AND status = 'unread' THEN 1 END) AS registration_count,
+            COUNT(CASE WHEN type = 'booking' AND status = 'unread' THEN 1 END) AS booking_count,
+            COUNT(CASE WHEN type = 'vendor' AND status = 'unread' THEN 1 END) AS vendor_count,
+            COUNT(CASE WHEN type = 'approval' AND status = 'unread' THEN 1 END) AS approval_count
+        FROM notifications
+    ";
     $stmt = $pdo->prepare($query);
     $stmt->execute();
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    $pendingCount = $row ? $row['pending_vehicles'] : 0;
+
+    $registrationCount = $row ? $row['registration_count'] : 0;
+    $bookingCount = $row ? $row['booking_count'] : 0;
+    $vendorCount = $row ? $row['vendor_count'] : 0;
+    $approvalCount = $row ? $row['approval_count'] : 0;
+
+    $totalNotifications = $registrationCount + $bookingCount + $vendorCount + $approvalCount;
 
     // Prepare and execute query to get the details of one of the pending bikes/scooters
     $notificationQuery = "
@@ -25,7 +37,7 @@ try {
     $vendorName = $notificationRow ? $notificationRow['company_name'] : '';
 } catch (PDOException $e) {
     echo 'Error: ' . $e->getMessage();
-    $pendingCount = 0;
+    $registrationCount = $bookingCount = $vendorCount = $approvalCount = $totalNotifications = 0;
     $vendorName = '';
 }
 ?>
@@ -41,20 +53,37 @@ try {
                     <a class="nav-link dropdown-toggle position-relative" href="#" id="notificationsDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="fas fa-bell"></span> <!-- Updated to Font Awesome -->
-                        <?php if ($pendingCount > 0): ?>
+                        <?php if ($totalNotifications > 0): ?>
                             <span class="badge badge-danger position-absolute top-0 start-100 translate-middle badge-sm">
-                                <?php echo htmlspecialchars($pendingCount); ?>
+                                <?php echo htmlspecialchars($totalNotifications); ?>
                             </span>
                         <?php endif; ?>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right bg-light border shadow" aria-labelledby="notificationsDropdown">
-                        <?php if ($pendingCount > 0): ?>
-                            <a class="dropdown-item" href="approve.php">
-                                <?php echo "You have $pendingCount bike(s)/scooter(s) pending approval"; ?>
-                                <?php if ($vendorName): ?>
-                                    <br>Vendor: <?php echo htmlspecialchars($vendorName); ?>
-                                <?php endif; ?>
-                            </a>
+                        <?php if ($totalNotifications > 0): ?>
+                            <?php if ($registrationCount > 0): ?>
+                                <a class="dropdown-item" href="registrations.php">
+                                    <?php echo "You have $registrationCount new registration(s)"; ?>
+                                </a>
+                            <?php endif; ?>
+                            <?php if ($bookingCount > 0): ?>
+                                <a class="dropdown-item" href="bookings.php">
+                                    <?php echo "You have $bookingCount new booking(s)"; ?>
+                                </a>
+                            <?php endif; ?>
+                            <?php if ($vendorCount > 0): ?>
+                                <a class="dropdown-item" href="vendors.php">
+                                    <?php echo "You have $vendorCount new vendor(s)"; ?>
+                                </a>
+                            <?php endif; ?>
+                            <?php if ($approvalCount > 0): ?>
+                                <a class="dropdown-item" href="approve.php">
+                                    <?php echo "You have $approvalCount vehicle(s) pending approval"; ?>
+                                    <?php if ($vendorName): ?>
+                                        <br>Vendor: <?php echo htmlspecialchars($vendorName); ?>
+                                    <?php endif; ?>
+                                </a>
+                            <?php endif; ?>
                         <?php else: ?>
                             <a class="dropdown-item" href="#">No new notifications</a>
                         <?php endif; ?>
@@ -64,12 +93,12 @@ try {
                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#"
                        id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false">
-                        <span class="fas fa-user"></span> <!-- Updated to Font Awesome -->
+                        <span class="fas fa-user"></span> 
                         <span class="ml-2">Profile</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
                         <a class="dropdown-item" href="#">Settings</a>
-                        <a class="dropdown-item" href="#">Logout</a>
+                        <a class="dropdown-item" href="logout.php">Logout</a>
                     </div>
                 </li>
             </ul>
@@ -78,14 +107,15 @@ try {
 </nav>
 
 <style>
-
-.badge-sm {
-    font-size:10px; 
-    
+body {
+    font-family: "Arial", sans-serif;
 }
 
+.badge-sm {
+    font-size: 10px;
+}
 
 .dropdown-menu {
-    max-width: 500px; 
+    max-width: 500px;
 }
 </style>

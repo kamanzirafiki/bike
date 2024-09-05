@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Professional Website</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Footer Styling */
+    
 footer {
     background-color: #000;
     color: #f0f0f0;
     padding: 50px 0 20px;
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
 }
 
 .footer-container {
@@ -68,7 +67,7 @@ footer {
 
 .footer-section ul li a i {
     margin-right: 5px;
-    color: #8f8989;
+    color: #A4ABA6;
 }
 
 .social-links {
@@ -79,7 +78,7 @@ footer {
     display: inline-block;
     width: 35px;
     height: 35px;
-    background-color: #8f8989;
+    background-color: #A4ABA6;
     color: #fff;
     text-align: center;
     line-height: 35px;
@@ -174,16 +173,16 @@ footer {
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="about us.php"><i class="fas fa-info-circle"></i>About Us</a></li>
-                    <li><a href="contact us.php"><i class="fas fa-envelope"></i> Contact</a></li>
-                    <li><a href="#"><i class="fas fa-shield-alt"></i> Bike List</a></li>
-                    <li><a href="#"><i class="fa-solid fa-lock"></i>Admin Login</a></li>
+                    <li><a href="../userdash/about us.php"><i class="fas fa-info-circle"></i>About Us</a></li>
+                    <li><a href="../userdash/contact us.php"><i class="fas fa-envelope"></i> Contact</a></li>
+                    <li><a href="../userdash/bike.php"><i class="fas fa-shield-alt"></i> Bike List</a></li>
+                    <li><a href="../admin/log.php"><i class="fa-solid fa-lock"></i>Admin Login</a></li>
                 </ul>
             </div>
             <div class="footer-section">
                 <h3>Our Services</h3>
                 <ul>
-                    <li><a href="#"><i class="fa-solid fa-bookmark"></i>Booking</a></li>
+                    <li><a href="../userdash/bike.php"><i class="fa-solid fa-bookmark"></i>Booking</a></li>
                     <li><a href="#"><i class="fa-solid fa-circle-question"></i></i>Support</a></li>
                     <li><a href="#"><i class="fa-solid fa-screwdriver-wrench"></i>Maintenance</a></li>
                 </ul>
@@ -198,10 +197,11 @@ footer {
             </div>
         <div class="newsletter">
         <h4>Subscribe to Our Newsletter</h4>
-        <form>
-            <input type="email" placeholder="Your Email" aria-label="Email for newsletter">
+        <form action="subscribe.php" method="POST">
+            <input type="email" name="email" placeholder="Your Email" aria-label="Email for newsletter" required>
             <button type="submit">Subscribe</button>
         </form>
+
      </div>
     </div>
         </div>
@@ -211,6 +211,5 @@ footer {
         </div>
     </footer>
 
-    <script src="script.js"></script>
 </body>
 </html>

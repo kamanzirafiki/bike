@@ -13,6 +13,7 @@
         background-size: 100% 100%;
         background-position: center;
         background-repeat: no-repeat;
+        font-family: "Arial", sans-serif;
       }
 
       .container {
@@ -21,9 +22,7 @@
 
       .card {
         border-radius: 1rem;
-        background-color: rgba(255, 255, 255, 0.5); /* More transparent white background */
-        /* For a stronger gradient background, use the following line instead */
-        /* background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3)); */
+        background-color: rgba(255, 255, 255, 0.5); 
       }
 
       .card-body {
@@ -67,19 +66,19 @@
               <div class="card-body">
 
                 <h3 class="mb-5">Admin Login</h3>
+                <form action="admin_login.php" method="POST">
+                  <div class="form-outline mb-4">
+                    <input type="text" id="username" name="username" class="form-control form-control-lg" required />
+                    <label class="form-label" for="username">Username</label>
+                  </div>
 
-                <div class="form-outline mb-4">
-                  <input type="email" id="typeEmailX-2" class="form-control form-control-lg" />
-                  <label class="form-label" for="typeEmailX-2">Email</label>
-                </div>
+                  <div class="form-outline mb-4">
+                    <input type="password" id="password" name="password" class="form-control form-control-lg" required />
+                    <label class="form-label" for="password">Password</label>
+                  </div>
 
-                <div class="form-outline mb-4">
-                  <input type="password" id="typePasswordX-2" class="form-control form-control-lg" />
-                  <label class="form-label" for="typePasswordX-2">Password</label>
-                </div>
-
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
-
+                  <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                </form>
                 <hr class="my-4">
               </div>
             </div>

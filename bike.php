@@ -1,5 +1,6 @@
 <?php
-include 'db_connection.php'; // Ensure this file contains the PDO connection
+include 'db_connection.php'; 
+include './userdash/header.php';
 
 try {
     // Fetch vehicles from the database
@@ -27,8 +28,11 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Available Bikes & Scooters</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
     <style>
         body {
             background: linear-gradient(to right, #f8f9fa, #e9ecef);
@@ -94,6 +98,19 @@ try {
         .swiper-pagination-bullet {
             background: #333;
         }
+        .dropdown-menu {
+            background-color: black ;
+            color: #fff;
+        }
+        .dropdown-menu .dropdown-item {
+            color: #fff;
+        }
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #A4ABA6;
+        }
+        .dropdown-menu .dropdown-item:focus {
+            background-color: #A4ABA6; /* Ensure it stays the same color when focused */
+        }
     </style>
 </head>
 
@@ -103,7 +120,7 @@ try {
             <?php if (!empty($vehicles)) : ?>
                 <?php foreach ($vehicles as $vehicle) : ?>
                     <div class="swiper-slide">
-                        <img src="vendor/uploads/<?php echo htmlspecialchars($vehicle['image'] ?? 'default_image.jpg'); ?>" alt="<?php echo htmlspecialchars($vehicle['name']); ?>">
+                        <img src="company/uploads/<?php echo htmlspecialchars($vehicle['image'] ?? 'default_image.jpg'); ?>" alt="<?php echo htmlspecialchars($vehicle['name']); ?>">
                         <div class="swiper-caption">
                             <h5><?php echo htmlspecialchars($vehicle['name']); ?></h5>
                             <p><?php echo htmlspecialchars($vehicle['details'] ?? 'No details available'); ?></p>
@@ -117,13 +134,13 @@ try {
                 <p class="text-center">No vehicles found.</p>
             <?php endif; ?>
         </div>
-
-        <!-- Add Pagination -->
         <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const swiper = new Swiper('.swiper-container', {
@@ -136,9 +153,14 @@ try {
                     el: '.swiper-pagination',
                     clickable: true,
                 },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
             });
         });
     </script>
+    <?php include 'includes/footer.php'; ?>
 </body>
 
 </html>

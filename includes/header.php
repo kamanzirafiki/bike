@@ -14,13 +14,16 @@ session_start();
         body {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
         }
         .navbar {
             background-color: #000;
+            position: relative;
+            overflow: hidden;
         }
         .navbar-brand {
             color: #fff;
+            display: inline-block;
         }
         .navbar-nav .nav-link {
             color: #fff;
@@ -44,7 +47,7 @@ session_start();
         }
         .hero-section {
             position: relative;
-            background-image: url('images/bike2.jpg');
+            background-image: url('../images/bike2.jpg');
             background-size: cover;
             background-position: center;
             height: 80vh;
@@ -91,34 +94,51 @@ session_start();
             width: 250px;
         }
         .dropdown-menu {
-            background-color: #A4ABA6;
+            background-color: black;
             color: #fff;
         }
         .dropdown-menu .dropdown-item {
             color: #fff;
         }
         .dropdown-menu .dropdown-item:hover {
-            background-color: #8f8989;
+            background-color: #A4ABA6;
         }
         .dropdown-menu .dropdown-item:focus {
-            background-color: #A4ABA6; /* Ensure it stays the same color when focused */
+            background-color: #A4ABA6; 
+        }
+        .navbar-brand i {
+            position: absolute;
+            left: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 30px;
+            animation: moveBike 10s linear infinite;
+            z-index: 1000;
+        }
+        @keyframes moveBike {
+            0% {
+                left: -50px;
+            }
+            100% {
+                left: 34%;
+            }
         }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Brand</a>
+            <a class="navbar-brand" href="#"><i class="fa-solid fa-bicycle"></i></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" href="index.php">Home</a>
+                        <a class="nav-link" href="index.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="about us.php">About Us</a>
+                        <a class="nav-link" href="./about us.php">About Us</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="./bike.php">Bike Listing</a>
@@ -127,15 +147,12 @@ session_start();
                         <a class="nav-link" href="#">FAQs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact us.php">Contact Us</a>
+                        <a class="nav-link" href="./contact us.php">Contact Us</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-3">
                     <li class="nav-item dropdown">
                         <?php
-                        // Debug session variable
-                        // echo '<pre>'; print_r($_SESSION); echo '</pre>';
-                        
                         $userName = isset($_SESSION['username']) ? $_SESSION['username'] : '';
                         $firstName = strtok($userName, ' ');
                         ?>
@@ -147,7 +164,7 @@ session_start();
                                 <a class="dropdown-item" href="<?php echo isset($_SESSION['username']) ? './userdash/profile.php' : './Auth/login.php'; ?>">Me</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="<?php echo isset($_SESSION['username']) ? './userdash/my_booking.php' : './Auth/login.php'; ?>">My Booking</a>
+                                <a class="dropdown-item" href="<?php echo isset($_SESSION['username']) ? './userdash/mybooking.php' : './Auth/login.php'; ?>">My Booking</a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="../Auth/logout.php">Logout</a></li>
@@ -163,6 +180,7 @@ session_start();
             </div>
         </div>
     </nav>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script></body>
 </html>

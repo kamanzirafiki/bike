@@ -1,4 +1,4 @@
-<?php include '../includes/header.php'; ?>
+<?php include '../userdash/header.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +7,6 @@
     <title>Login Form</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="style.css" />
     <style>
         body {
             margin: 0;
@@ -139,7 +138,7 @@
             top: 25px;
             pointer-events: none;
             transition: 0.3s;
-            font-size: 18px;
+            font-size: 15px;
             line-height: 28px;
             font-weight: 500;
             color: #fff;
@@ -228,36 +227,54 @@
         .password-toggle:hover {
             color: #ccc;
         }
+
+        .alert {
+            background-color: #f44336; /* Red background for error */
+            color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%; /* Set width to fit within the form */
+        }
+
+        .alert-success {
+            background-color: #4caf50;
+        }
+
+        .alert-error {
+            background-color: #f44336;
+        }
     </style>
 </head>
 <body>
     <div class="form-main">
         <div class="form-container">
             <div class="main-wrapper">
+                <?php if (isset($_SESSION['error'])): ?>
+                    <div class="alert alert-error">
+                        <?php echo $_SESSION['error']; ?>
+                        <script>
+                            setTimeout(function() {
+                                document.querySelector('.alert').style.display = 'none';
+                            }, 3000); 
+                        </script>
+                    </div>
+                    <?php unset($_SESSION['error']); ?>
+                <?php endif; ?>
+
                 <h2 class="form-head">LOGIN</h2>
+
                 <form class="form-wrapper" method="post" action="fn.php">
                     <div class="form-card">
-                        <input
-                            class="form-input"
-                            type="email"
-                            name="email"
-                            id="email"
-                            placeholder=" "
-                            required="required"
-                        />
+                        <input class="form-input" type="email" name="email" id="email" placeholder=" " required="required" />
                         <label class="form-label" for="email">Email</label>
                     </div>
 
                     <div class="form-card">
                         <div class="form-group">
-                            <input
-                                class="form-input"
-                                type="password"
-                                name="password"
-                                id="password"
-                                placeholder=" "
-                                required="required"
-                            />
+                            <input class="form-input" type="password" name="password" id="password" placeholder=" " required="required" />
                             <label class="form-label" for="password">Password</label>
                             <i id="password-toggle" class="fas fa-eye password-toggle" onclick="togglePassword()"></i>
                         </div>
@@ -279,25 +296,27 @@
 
             <div class="description-wrapper">
                 <p>
-                    Welcome back! Please log in to access your account. If you don’t have an account yet, you can create one by clicking the sign-up link below. We look forward to having you back with us!
+                    Welcome back! Please log in to access your account. If you don’t have an account yet, you can create one by clicking the sign-up link. 
                 </p>
             </div>
         </div>
     </div>
-    <?php include '../includes/footer.php'; ?>
-
+    
     <script>
         function togglePassword() {
-            var passwordInput = document.getElementById('password');
-            var passwordToggle = document.getElementById('password-toggle');
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                passwordToggle.className = 'fas fa-eye-slash password-toggle';
+            var password = document.getElementById("password");
+            var icon = document.getElementById("password-toggle");
+            if (password.type === "password") {
+                password.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
             } else {
-                passwordInput.type = 'password';
-                passwordToggle.className = 'fas fa-eye password-toggle';
+                password.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
             }
         }
     </script>
+    <?php include '../includes/footer.php' ?>
 </body>
 </html>

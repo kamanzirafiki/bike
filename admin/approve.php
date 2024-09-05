@@ -1,3 +1,12 @@
+<?php
+session_start(); // Start the session
+
+// Check if the admin is logged in
+if (!isset($_SESSION['admin_id']) || !$_SESSION['is_admin']) {
+    header("Location: log.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +17,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Arial", sans-serif;
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
@@ -189,7 +198,7 @@
                 echo '<td>' . htmlspecialchars($row['plate_number']) . '</td>';
                 echo '<td>' . htmlspecialchars($row['details']) . '</td>';
                 echo '<td>' . htmlspecialchars($row['type']) . '</td>';
-                echo '<td><img src="../vendor/uploads/' . htmlspecialchars($row['image']) . '" alt="Vehicle Image" width="100"></td>';
+                echo '<td><img src="../company/uploads/' . htmlspecialchars($row['image']) . '" alt="Vehicle Image" width="100"></td>';
                 echo '<td class="actions">
                         <div class="btn-group">
                             <a href="approvefn.php?id=' . htmlspecialchars($row['bike_scooter_id']) . '&action=approve" class="btn btn-success btn-sm">

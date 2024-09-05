@@ -11,8 +11,8 @@
         <ul>
             <li><a href="profile.php">Profile Settings</a></li>
             <li><a href="updatepassword.php">Update Password</a></li>
-            <li><a href="#">My Booking</a></li>
-            <li><a href="./Auth/logout.php">Sign Out</a></li>
+            <li><a href="mybooking.php">My Booking</a></li>
+            <li><a href="../Auth/logout.php">Sign Out</a></li>
         </ul>
     </nav>
 </div>

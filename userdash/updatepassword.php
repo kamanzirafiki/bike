@@ -1,7 +1,7 @@
 <?php
 ob_start(); // Start output buffering
 
-include('../includes/header.php'); 
+include('header.php'); 
 include '../db_connection.php'; 
 
 // Ensure the user is logged in
@@ -89,7 +89,7 @@ ob_end_flush(); // End output buffering and flush the buffer
         body, html {
             height: 100%;
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
         }
 
         body {
@@ -117,12 +117,6 @@ ob_end_flush(); // End output buffering and flush the buffer
             display: flex;
         }
 
-        .sidebar {
-            width: 250px;
-            padding: 20px;
-            border-right: 1px solid #ccc;
-        }
-
         .profile-section {
             text-align: center;
             margin-bottom: 30px;
@@ -139,6 +133,12 @@ ob_end_flush(); // End output buffering and flush the buffer
             color: #333;
         }
 
+        .sidebar {
+            width: 250px;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+        }
+
         .nav-links ul {
             list-style: none;
             padding: 0;
@@ -152,6 +152,15 @@ ob_end_flush(); // End output buffering and flush the buffer
             text-decoration: none;
             color: #333;
             font-size: 16px;
+            padding: 10px 15px; /* Add padding for better hover effect */
+            display: block; /* Ensure the link covers the entire area */
+            border-radius: 4px; /* Add rounded corners */
+        }
+
+        .nav-links ul li a:hover {
+            background-color: #A4ABA6; 
+            color: #fff; 
+            font-weight: bold;
         }
 
         .nav-links ul li.active a {
@@ -190,14 +199,14 @@ ob_end_flush(); // End output buffering and flush the buffer
         .form-group input {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid gray;
             border-radius: 4px;
             font-size: 16px;
         }
 
         .btn-save {
             padding: 10px 20px;
-            background-color: #e74c3c;
+            background-color: #A4ABA6;
             color: #fff;
             border: none;
             border-radius: 4px;
@@ -206,7 +215,8 @@ ob_end_flush(); // End output buffering and flush the buffer
         }
 
         .btn-save:hover {
-            background-color: #c0392b;
+            border: 1px solid #000;
+            background: gray;
         }
 
         .alert {
@@ -310,9 +320,18 @@ ob_end_flush(); // End output buffering and flush the buffer
     <?php include('../includes/footer.php'); ?>
 
     <script>
-        document.querySelectorAll('.alert .close-btn').forEach(function(button) {
-            button.addEventListener('click', function() {
-                this.parentElement.style.display = 'none';
+        // Automatically hide alerts after 5 seconds
+        setTimeout(function() {
+            let alert = document.querySelector('.alert');
+            if (alert) {
+                alert.style.display = 'none';
+            }
+        }, 5000);
+
+        // Close alert manually when clicking close button
+        document.querySelectorAll('.close-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                btn.parentElement.style.display = 'none';
             });
         });
     </script>
