@@ -1,4 +1,4 @@
-<?php include 'includes/header.php'; ?>
+<?php include './userdash/header.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -149,7 +149,7 @@
       <div class="content">
         <h2>About Us</h2>
         <p>We are The Bikes & Scooters Rental. The only 100% dedicated bikes and scooters rental booking website. Ever since, it has been our aim to make bike rental easier for everyone, everywhere. We focus on making bike and scooter rentals easier for you. We are the only dedicated bike and scooter rental site and will be able to offer you a solution to match your needs. Get in touch with us and ride 🚲 with us today! We provide affordable bike rates.</p>
-        <a href="#">Book Now</a>
+        <a href="bike.php">Book Now</a>
       </div>
     </div>
   </div>

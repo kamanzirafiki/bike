@@ -1,4 +1,4 @@
-<?php include 'includes/header.php'; ?>
+<?php include './userdash/header.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -121,12 +121,7 @@
         color: #fff;
       }
 
-      .form-input:valid,
-      .form-input:focus,
-      .form-textarea:valid,
-      .form-textarea:focus {
-
-      }
+      
 
       .form-input:-webkit-autofill,
       .form-input:-webkit-autofill:hover,
@@ -150,16 +145,16 @@
       .form-label,
       .form-textarea-label {
         position: absolute;
-        left: 25px;
-        top: 60%;
-        transform: translateY(-90%);
-        pointer-events: none;
-        transition: 0.3s;
-        margin: 0;
-        font-size: 18px;
-        line-height: 28px;
-        font-weight: 500;
-        color: #fff;
+            left: 25px;
+            top: 60%;
+            transform: translateY(-90%);
+            pointer-events: none;
+            transition: 0.3s;
+            margin: 0;
+            font-size: 14px; 
+            line-height: 20px;
+            font-weight: 500;
+            color: #fff;
       }
 
       .form-textarea-label {
@@ -202,6 +197,20 @@
         border: 1px solid #000;
         background: transparent;
       }
+
+      /* Alert message styling */
+      .alert {
+        padding: 15px;
+        background-color: #4CAF50; /* Green */
+        color: white;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        text-align: center;
+      }
+
+      .alert.error {
+        background-color: #f44336; /* Red */
+      }
     </style>
   </head>
   <body>
@@ -209,7 +218,16 @@
       <div class="form-container">
         <div class="main-wrapper">
           <h2 class="form-head">Contact Form</h2>
-          <form class="form-wrapper">
+
+          <?php if (isset($_GET['status'])): ?>
+            <?php if ($_GET['status'] == 'success'): ?>
+              <div class="alert">Thank you for contacting us. We will get back to you soon!</div>
+            <?php elseif ($_GET['status'] == 'error'): ?>
+              <div class="alert error">There was an error submitting your query. Please try again later.</div>
+            <?php endif; ?>
+          <?php endif; ?>
+
+          <form class="form-wrapper" action="contactfn.php" method="POST">
             <div class="form-card">
               <input
                 class="form-input"
@@ -227,13 +245,13 @@
                 name="email"
                 required="required"
               />
-              <label class="form-label" for="email">Email</label>
+              <label class="form-label" for="email">Email Address</label>
             </div>
 
             <div class="form-card">
               <input
                 class="form-input"
-                type="number"
+                type="tel"
                 name="phone_number"
                 required="required"
               />
@@ -243,27 +261,43 @@
             <div class="form-card">
               <textarea
                 class="form-textarea"
-                maxlength="420"
-                rows="3"
                 name="message"
                 required="required"
               ></textarea>
-              <label class="form-textarea-label" for="message">Message</label>
+              <label class="form-textarea-label" for="message">Your Message</label>
             </div>
-            
+
             <div class="btn-wrap">
-              <button type="submit">Submit</button>
+              <button type="submit">Send Message</button>
             </div>
           </form>
         </div>
 
         <div class="description-wrapper">
+          <h3>Get in Touch with Us</h3>
           <p>
-            We value your feedback and we are here to assist you with any questions or concerns about our service. Please fill out the contact form, and we will get back to you as soon as possible. Your satisfaction is our priority!
+            Feel free to reach out to us with any questions, suggestions, or
+            feedback. We are here to help you and ensure your experience with
+            our service is as smooth as possible.
+          </p>
+          <p>
+            Whether you're looking to rent a bike or scooter, have queries
+            about our services, or simply want to share your thoughts, our team
+            is ready to assist you.
           </p>
         </div>
       </div>
     </div>
+
+    <script>
+      // Automatically hide alert messages after 3 seconds
+      setTimeout(function() {
+        const alert = document.querySelector('.alert');
+        if (alert) {
+          alert.style.display = 'none';
+        }
+      }, 3000);
+    </script>
     <?php include 'includes/footer.php'; ?>
   </body>
 </html>

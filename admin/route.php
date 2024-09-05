@@ -5,6 +5,12 @@ unset($_SESSION['message']);
 
 require '../db_connection.php';
 
+// Check if the admin is logged in
+if (!isset($_SESSION['admin_id']) || !$_SESSION['is_admin']) {
+    header("Location: log.php");
+    exit;
+}
+
 // Fetch stations from the database
 $query = "SELECT name FROM stations";
 $stmt = $pdo->prepare($query);

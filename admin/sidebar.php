@@ -87,7 +87,7 @@
 <div class="col-md-3 col-lg-2 px-0 position-fixed h-100 bg-dark shadow-sm sidebar" id="sidebar">
 <h1 class="fas fa-bicycle text-primary d-flex my-4 justify-content-center"></h1> 
     <div class="list-group rounded-0">
-        <a href="dashboard.php" class="list-group-item list-group-item-action active border-0 d-flex align-items-center">
+        <a href="index.php" class="list-group-item list-group-item-action active border-0 d-flex align-items-center">
             <span class="fas fa-border-all"></span>
             <span class="ml-2">Dashboard</span>
         </a>
@@ -122,42 +122,34 @@
                 <span class="fas fa-eye"></span>
                 <span class="ml-2">View Stations</span>
             </a>
-            <a href="addlocation.php" class="list-group-item list-group-item-action border-0">
+            <a href="regstation.php" class="list-group-item list-group-item-action border-0">
                 <span class="fas fa-plus-circle"></span>
                 <span class="ml-2">Add Stations</span>
             </a>
         </div>
-        <a href="manage-booking.php" class="list-group-item list-group-item-action border-0 align-items-center">
+        <a href="viewbooking.php" class="list-group-item list-group-item-action border-0 align-items-center">
             <span class="fas fa-book"></span>
             <span class="ml-2">Manage Booking</span>
         </a>
-        <a href="manage-contactus-query.php" class="list-group-item list-group-item-action border-0 align-items-center">
+        <a href="viewcontactus.php" class="list-group-item list-group-item-action border-0 align-items-center">
             <span class="fas fa-envelope"></span>
-            <span class="ml-2">Manage ContactUs Query</span>
+            <span class="ml-2">Manage ContactUs</span>
         </a>
         <a href="viewuser.php" class="list-group-item list-group-item-action border-0 align-items-center">
             <span class="fas fa-user"></span>
             <span class="ml-2">Registered Users</span>
         </a>
-        <a href="manage-vendors.php" class="list-group-item list-group-item-action border-0 align-items-center">
+        <a href="viewvendors.php" class="list-group-item list-group-item-action border-0 align-items-center">
             <span class="fas fa-user-tie"></span>
             <span class="ml-2">Manage Vendors</span>
         </a>
-        <a href="manage-pages.php" class="list-group-item list-group-item-action border-0 align-items-center">
-            <span class="fas fa-file-alt"></span>
-            <span class="ml-2">Manage Pages</span>
-        </a>
-        <a href="update-contact-info.php" class="list-group-item list-group-item-action border-0 align-items-center">
-            <span class="fas fa-phone-alt"></span>
-            <span class="ml-2">Update Contact Info</span>
-        </a>
-        <a href="manage-subscribers.php" class="list-group-item list-group-item-action border-0 align-items-center">
+        <a href="viewsubs.php" class="list-group-item list-group-item-action border-0 align-items-center">
             <span class="fas fa-user-check"></span>
             <span class="ml-2">Manage Subscribers</span>
         </a>
-        <a href="analytics-reports.php" class="list-group-item list-group-item-action border-0 align-items-center">
-            <span class="fas fa-chart-line"></span>
-            <span class="ml-2">Analytics & Reports</span>
+        <a href="viewfeedback.php" class="list-group-item list-group-item-action border-0 align-items-center">
+            <span class="fa-solid fa-comment"></span>
+            <span class="ml-2">Feedback</span>
         </a>
     </div>
 </div>

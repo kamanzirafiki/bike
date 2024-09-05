@@ -2,8 +2,8 @@
 // Start output buffering
 ob_start();
 
-include('../includes/header.php'); 
-include '../db_connection.php'; 
+include('header.php');
+include '../db_connection.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../Auth/login.php');
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':phone', $phone);
         $stmt->bindParam(':user_id', $user_id);
-        
+
         if ($stmt->execute()) {
             $_SESSION['success_message'] = "Profile updated successfully.";
         } else {
@@ -68,20 +68,22 @@ ob_end_flush();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        body, html {
+        body,
+        html {
             height: 100%;
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: Arial, 'sans-serif';
         }
 
         body {
-            background: url('background.jpg') no-repeat center center fixed; 
+            background: url('background.jpg') no-repeat center center fixed;
             background-size: cover;
             display: flex;
             flex-direction: column;
@@ -105,12 +107,6 @@ ob_end_flush();
             display: flex;
         }
 
-        .sidebar {
-            width: 250px;
-            padding: 20px;
-            border-right: 1px solid #ccc;
-        }
-
         .profile-section {
             text-align: center;
             margin-bottom: 30px;
@@ -127,6 +123,12 @@ ob_end_flush();
             color: #333;
         }
 
+        .sidebar {
+            width: 250px;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+        }
+
         .nav-links ul {
             list-style: none;
             padding: 0;
@@ -140,6 +142,14 @@ ob_end_flush();
             text-decoration: none;
             color: #333;
             font-size: 16px;
+            padding: 10px 15px;
+            display: block;
+            border-radius: 4px;
+        }
+
+        .nav-links ul li a:hover {
+            background-color: #A4ABA6;
+            color: #fff;
         }
 
         .nav-links ul li.active a {
@@ -190,7 +200,7 @@ ob_end_flush();
 
         .btn-save {
             padding: 10px 20px;
-            background-color: #e74c3c;
+            background-color: #A4ABA6;
             color: #fff;
             border: none;
             border-radius: 4px;
@@ -199,13 +209,19 @@ ob_end_flush();
         }
 
         .btn-save:hover {
-            background-color: #c0392b;
+            border: 1px solid #000;
+            background: gray;
         }
 
         .alert {
             padding: 10px;
             margin-bottom: 20px;
             border-radius: 4px;
+            position: relative;
+            display: flex;
+            margin-left: 12%;
+            align-items: center;
+            width: 75%;
         }
 
         .alert-success {
@@ -217,19 +233,164 @@ ob_end_flush();
             background-color: #f8d7da;
             color: #721c24;
         }
+
+        .closebtn {
+            margin-left: 15px;
+            color: #aaa;
+            font-weight: bold;
+            float: right;
+            font-size: 20px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+        .closebtn:hover {
+            color: black;
+        }
+
+        .icon {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        #feedback-section {
+            position: relative;
+            /* Ensure it's positioned relative */
+            z-index: 10;
+            /* Higher value to bring it above other elements */
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+            /* Slightly darker background for the modal overlay */
+            backdrop-filter: blur(5px);
+            /* Optional: Add a blur effect to the background */
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 40%;
+            /* Reduced width */
+            max-width: 500px;
+            /* Optional: Set a maximum width */
+            animation: shake 0.5s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            /* Optional: Add a shadow for a cool effect */
+        }
+
+        @keyframes shake {
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-10px);
+            }
+
+            50% {
+                transform: translateX(10px);
+            }
+
+            75% {
+                transform: translateX(-10px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .modal-buttons button {
+            background-color: #4CAF50;
+            /* Green background */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .modal-buttons button.cancel {
+            background-color: #f44336;
+            /* Red background for cancel */
+        }
+
+        .modal-buttons button:hover {
+            background-color: #45a049;
+            /* Darker green */
+        }
+
+        .modal-buttons button.cancel:hover {
+            background-color: #c62828;
+            /* Darker red for cancel */
+        }
     </style>
+    <script>
+        // Automatically hide alert after 5 seconds (5000 ms)
+        setTimeout(function() {
+            var alert = document.querySelector('.alert');
+            if (alert) {
+                alert.style.display = 'none';
+            }
+        }, 5000); // 5 seconds
+    </script>
 </head>
+
 <body>
 
     <div class="content">
         <div class="container">
             <?php include('sidebar.php'); ?>
             <div class="main-content">
-                <h2 class="section-title">GENERAL SETTINGS</h2>
+                <h2 class="section-title">Account Info</h2>
                 <p class="reg-date">Reg Date - <?php echo htmlspecialchars($user['created_at']); ?></p>
 
                 <?php if (isset($_SESSION['success_message'])): ?>
                     <div class="alert alert-success">
+                        <i class="fas fa-check-circle icon"></i>
+                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
                         <?php
                         echo htmlspecialchars($_SESSION['success_message']);
                         unset($_SESSION['success_message']);
@@ -239,6 +400,8 @@ ob_end_flush();
 
                 <?php if (isset($_SESSION['error_message'])): ?>
                     <div class="alert alert-error">
+                        <i class="fas fa-exclamation-circle icon"></i>
+                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
                         <?php
                         echo htmlspecialchars($_SESSION['error_message']);
                         unset($_SESSION['error_message']);
@@ -266,7 +429,7 @@ ob_end_flush();
             </div>
         </div>
     </div>
-
-    <?php include('../includes/footer.php'); ?>
+    <?php include '../includes/footer.php'; ?>
 </body>
+
 </html>

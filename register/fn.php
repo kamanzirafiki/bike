@@ -1,4 +1,8 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../vendor/autoload.php'; // Autoload PHPMailer, adjust path if necessary
 include '../db_connection.php';
 session_start(); // Ensure session is started
 
@@ -10,7 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirm_password'];
 
-    // Initialize message variable
     $message = "";
     $msg_type = "danger"; // Default message type
 
@@ -37,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Hash the password
                 $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-                // Prepare the SQL query
+                // Insert user into database
                 $stmt = $pdo->prepare("INSERT INTO users (username, password, email, phone, created_at, updated_at) VALUES (:username, :password, :email, :phone, NOW(), NOW())");
                 $stmt->execute([
                     ':username' => $fullName,
@@ -46,8 +49,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     ':phone' => $phoneNumber,
                 ]);
 
-                $message = "Registration successful!";
-                $msg_type = "success"; // Set message type to success
+                // Send registration confirmation email using PHPMailer
+                $mail = new PHPMailer(true); // Create instance of PHPMailer
+                try {
+                    //Server settings
+                    $mail->isSMTP();                                      // Send using SMTP
+                    $mail->Host       = 'smtp.gmail.com';                 // Set the SMTP server to send through
+                    $mail->SMTPAuth   = true;                             // Enable SMTP authentication
+                    $mail->Username   = 'bikescooters056@gmail.com';      // SMTP username (sender's email)
+                    $mail->Password   = 'pknc lwut touu fkho';             // SMTP password (sender's email password)
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;   // Enable TLS encryption
+                    $mail->Port       = 587;                              // TCP port to connect to
+
+                    //Recipients
+                    $mail->setFrom('bikescooters056@gmail.com', 'Bike Scooter Rental');  // Sender email
+                    $mail->addAddress($email, $fullName);  // Recipient email (user who registered)
+
+                    // Content
+                    $mail->isHTML(true);                                  // Set email format to HTML
+                    $mail->Subject = 'Registration Successful';
+                    $mail->Body    = "Dear $fullName,<br><br>Thank you for registering on our platform.<br>We're excited to have you on board.<br><br>Best regards,<br>Bike & Scooter Rental Team";
+
+                    $mail->send();
+                    $message = "Registration successful! Confirmation email sent.";
+                    $msg_type = "success";
+                } catch (Exception $e) {
+                    $message = "Registration successful, but email could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                }
 
                 // Set a popup message in the session
                 $_SESSION['popup_message'] = $message;
